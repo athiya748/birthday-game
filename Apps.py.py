@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[5]:
 
 
 import streamlit as st
@@ -22,18 +22,19 @@ st.set_page_config(
 # ============================================================
 # PHOTO PATHS
 # ============================================================
-# IMPORTANT:
-# No __file__ is used here.
+# Works on Streamlit Cloud AND Jupyter.
 #
-# Your photos are in:
-# C:\Users\Athiya.r\Untitled Folder
+# On Streamlit Cloud:
+#   photos are expected to be beside apps.py
 #
-# Required names:
-# Ani.jpg.jpeg
-# athu.jpg.jpeg
+# On Jupyter:
+#   if __file__ doesn't exist, it uses the current folder.
 # ============================================================
 
-BASE_DIR = Path(r"C:\Users\Athiya.r\Untitled Folder")
+try:
+    BASE_DIR = Path(__file__).resolve().parent
+except NameError:
+    BASE_DIR = Path.cwd()
 
 ANI_IMAGE = BASE_DIR / "Ani.jpg.jpeg"
 ATHU_IMAGE = BASE_DIR / "athu.jpg.jpeg"
@@ -51,15 +52,12 @@ if "photo_page" not in st.session_state:
 
 
 # ============================================================
-# CSS DESIGN
+# CSS
 # ============================================================
 
-st.markdown("""
+st.markdown(
+    """
 <style>
-
-/* ============================================================
-   BACKGROUND
-   ============================================================ */
 
 .stApp {
     background:
@@ -86,11 +84,6 @@ st.markdown("""
         );
 }
 
-
-/* ============================================================
-   HIDE DEFAULT STREAMLIT ELEMENTS
-   ============================================================ */
-
 #MainMenu {
     visibility: hidden;
 }
@@ -99,11 +92,6 @@ footer {
     visibility: hidden;
 }
 
-
-/* ============================================================
-   TEXT VISIBILITY
-   ============================================================ */
-
 .stMarkdown,
 .stMarkdown p,
 .stMarkdown h1,
@@ -111,11 +99,6 @@ footer {
 .stMarkdown h3 {
     opacity: 1 !important;
 }
-
-
-/* ============================================================
-   RADIO TEXT
-   ============================================================ */
 
 .stRadio label {
     color: #1e293b !important;
@@ -133,11 +116,6 @@ div[data-testid="stRadio"] p {
     opacity: 1 !important;
 }
 
-
-/* ============================================================
-   TEXT INPUT
-   ============================================================ */
-
 .stTextInput label {
     color: #1e293b !important;
     font-weight: 800 !important;
@@ -148,11 +126,6 @@ div[data-testid="stRadio"] p {
     background: white !important;
     border: 2px solid #cbd5e1 !important;
 }
-
-
-/* ============================================================
-   MAIN TITLE
-   ============================================================ */
 
 .main-title {
     text-align: center;
@@ -177,7 +150,6 @@ div[data-testid="stRadio"] p {
 }
 
 @keyframes gradientText {
-
     0% {
         background-position: 0% center;
     }
@@ -191,19 +163,9 @@ div[data-testid="stRadio"] p {
     }
 }
 
-
-/* ============================================================
-   CENTER TEXT
-   ============================================================ */
-
 .center-text {
     text-align: center;
 }
-
-
-/* ============================================================
-   BIG EMOJI
-   ============================================================ */
 
 .big-emoji {
     text-align: center;
@@ -215,7 +177,6 @@ div[data-testid="stRadio"] p {
 }
 
 @keyframes floating {
-
     0% {
         transform: translateY(0);
     }
@@ -230,7 +191,6 @@ div[data-testid="stRadio"] p {
 }
 
 @keyframes glow {
-
     0% {
         filter: drop-shadow(0 0 2px #93c5fd);
     }
@@ -243,11 +203,6 @@ div[data-testid="stRadio"] p {
         filter: drop-shadow(0 0 2px #93c5fd);
     }
 }
-
-
-/* ============================================================
-   SPECIAL CARD
-   ============================================================ */
 
 .special-box {
     padding: 30px;
@@ -267,11 +222,6 @@ div[data-testid="stRadio"] p {
 
     margin: 20px 0;
 }
-
-
-/* ============================================================
-   QUESTION CARD
-   ============================================================ */
 
 .question-card {
     padding: 28px;
@@ -294,11 +244,6 @@ div[data-testid="stRadio"] p {
     margin-bottom: 25px;
 }
 
-
-/* ============================================================
-   QUESTION NUMBER
-   ============================================================ */
-
 .question-number {
     color: #7c3aed;
     font-size: 20px;
@@ -306,24 +251,13 @@ div[data-testid="stRadio"] p {
     margin-bottom: 8px;
 }
 
-
-/* ============================================================
-   QUESTION TITLE
-   ============================================================ */
-
 .question-title {
     font-size: 25px;
     font-weight: 800;
     color: #1e293b;
 }
 
-
-/* ============================================================
-   BUTTONS
-   ============================================================ */
-
 .stButton > button {
-
     border-radius: 18px !important;
 
     border: 2px solid #dbeafe !important;
@@ -358,7 +292,6 @@ div[data-testid="stRadio"] p {
 }
 
 .stButton > button:hover {
-
     transform:
         translateY(-3px)
         scale(1.02);
@@ -370,23 +303,12 @@ div[data-testid="stRadio"] p {
         rgba(236,72,153,0.30) !important;
 }
 
-
-/* ============================================================
-   ALERTS
-   ============================================================ */
-
 div[data-testid="stAlert"] {
     border-radius: 18px !important;
     font-weight: 700 !important;
 }
 
-
-/* ============================================================
-   PHOTO CARD
-   ============================================================ */
-
 .photo-card {
-
     padding: 20px;
 
     border-radius: 30px;
@@ -406,13 +328,7 @@ div[data-testid="stAlert"] {
     margin-top: 20px;
 }
 
-
-/* ============================================================
-   PHOTO GLOW
-   ============================================================ */
-
 .photo-glow {
-
     padding: 10px;
 
     border-radius: 28px;
@@ -438,7 +354,6 @@ div[data-testid="stAlert"] {
 }
 
 @keyframes photoBorder {
-
     0% {
         background-position: 0% 50%;
     }
@@ -452,13 +367,7 @@ div[data-testid="stAlert"] {
     }
 }
 
-
-/* ============================================================
-   PHOTO TITLE
-   ============================================================ */
-
 .photo-title {
-
     text-align: center;
 
     font-size: 28px;
@@ -470,13 +379,7 @@ div[data-testid="stAlert"] {
     margin: 15px 0;
 }
 
-
-/* ============================================================
-   HEARTBEAT
-   ============================================================ */
-
 .heart {
-
     text-align: center;
 
     font-size: 65px;
@@ -486,7 +389,6 @@ div[data-testid="stAlert"] {
 }
 
 @keyframes heartbeat {
-
     0% {
         transform: scale(1);
     }
@@ -508,13 +410,7 @@ div[data-testid="stAlert"] {
     }
 }
 
-
-/* ============================================================
-   FLOATING HEARTS
-   ============================================================ */
-
 .floating-hearts {
-
     text-align: center;
 
     font-size: 32px;
@@ -526,7 +422,6 @@ div[data-testid="stAlert"] {
 }
 
 @keyframes floatingHearts {
-
     0% {
         transform: translateY(0);
     }
@@ -540,13 +435,7 @@ div[data-testid="stAlert"] {
     }
 }
 
-
-/* ============================================================
-   FINAL LOVE BOX
-   ============================================================ */
-
 .final-box {
-
     padding: 40px 22px;
 
     border-radius: 32px;
@@ -575,7 +464,6 @@ div[data-testid="stAlert"] {
 }
 
 @keyframes finalBackground {
-
     0% {
         background-position: 0% 50%;
     }
@@ -589,13 +477,7 @@ div[data-testid="stAlert"] {
     }
 }
 
-
-/* ============================================================
-   SHAKING LOVE TEXT
-   ============================================================ */
-
 .love-text {
-
     text-align: center;
 
     font-size: 48px;
@@ -614,7 +496,6 @@ div[data-testid="stAlert"] {
 }
 
 @keyframes shake {
-
     0% {
         transform:
             translateX(0)
@@ -653,7 +534,6 @@ div[data-testid="stAlert"] {
 }
 
 @keyframes loveGlow {
-
     0% {
         text-shadow:
             0 0 5px #fda4af;
@@ -671,13 +551,7 @@ div[data-testid="stAlert"] {
     }
 }
 
-
-/* ============================================================
-   FINAL MESSAGE
-   ============================================================ */
-
 .final-message {
-
     font-size: 21px;
 
     line-height: 1.9;
@@ -691,13 +565,7 @@ div[data-testid="stAlert"] {
     margin: 18px 0;
 }
 
-
-/* ============================================================
-   PROGRESS
-   ============================================================ */
-
 .progress-text {
-
     text-align: center;
 
     font-size: 14px;
@@ -710,7 +578,9 @@ div[data-testid="stAlert"] {
 }
 
 </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True
+)
 
 
 # ============================================================
@@ -731,10 +601,7 @@ if st.session_state.level == 0:
 
     st.markdown(
         """
-<h3
-class="center-text"
-style="color:#374151;"
->
+<h3 class="center-text" style="color:#374151;">
 ✨ A Secret Birthday Portal ✨
 </h3>
 """,
@@ -771,7 +638,6 @@ Are you ready to unlock it? 🎂🎁👑
             "START THE GAME 🚀💙",
             use_container_width=True
         ):
-
             st.session_state.level = 1
             st.rerun()
 
@@ -827,18 +693,14 @@ What color lights up your entire world? 💙✨
 
         if color == "Blue 💙":
 
-            st.success(
-                "Yay! Correct! 💙😘✨"
-            )
+            st.success("Yay! Correct! 💙😘✨")
 
             st.session_state.level = 2
             st.rerun()
 
         else:
 
-            st.error(
-                "Wrong answer! 🥺💔 Try again!"
-            )
+            st.error("Wrong answer! 🥺💔 Try again!")
 
 
 # ============================================================
@@ -892,18 +754,14 @@ What royal dish rules your heart and tummy? 🍽️🔥
 
         if food == "Biriyani 🍛":
 
-            st.success(
-                "Correct! Yum! 🍛😘💋"
-            )
+            st.success("Correct! Yum! 🍛😘💋")
 
             st.session_state.level = 3
             st.rerun()
 
         else:
 
-            st.error(
-                "Nope! 😢💔 Try again!"
-            )
+            st.error("Nope! 😢💔 Try again!")
 
 
 # ============================================================
@@ -957,18 +815,14 @@ What activity makes you happiest in your free time? 🎧✨
 
         if hobby == "My Hobby / Passion 💖🎮":
 
-            st.success(
-                "Bingo! 💋🥰 Level unlocked!"
-            )
+            st.success("Bingo! 💋🥰 Level unlocked!")
 
             st.session_state.level = 4
             st.rerun()
 
         else:
 
-            st.error(
-                "Wrong guess! 😭💔 Try again!"
-            )
+            st.error("Wrong guess! 😭💔 Try again!")
 
 
 # ============================================================
@@ -1022,26 +876,18 @@ Who are you to me in this world? 👑❤️
 
         if relation == "✨ My Queen 👑💖":
 
-            st.success(
-                "Aww! Perfect choice! 🥰👑💎"
-            )
+            st.success("Aww! Perfect choice! 🥰👑💎")
 
             st.session_state.level = 5
             st.rerun()
 
         else:
 
-            st.error(
-                "No way! 🥺💔 Try again!"
-            )
+            st.error("No way! 🥺💔 Try again!")
 
 
 # ============================================================
 # LEVEL 5 — PASSWORD
-# ============================================================
-# NO CLUE IS SHOWN.
-# PASSWORD IS:
-# i love you
 # ============================================================
 
 elif st.session_state.level == 5:
@@ -1096,9 +942,7 @@ Enter the secret password ❤️
 
         else:
 
-            st.error(
-                "Incorrect password! 😭💔"
-            )
+            st.error("Incorrect password! 😭💔")
 
 
 # ============================================================
@@ -1125,16 +969,12 @@ Happy Advance Birthday, My Hero! 👑✨🥰
 
     st.markdown(
         """
-<h2
-class="center-text"
-style="color:#2563eb;"
->
+<h2 class="center-text" style="color:#2563eb;">
 ⏳ 9 days to go ✨🤗
 </h2>
 """,
         unsafe_allow_html=True
     )
-
 
     # ========================================================
     # BIRTHDAY MESSAGE
@@ -1162,10 +1002,8 @@ the seconds until your official birthday
 celebration! 💖💎
 </p>
 
-<p
-class="final-message"
-style="color:#e11d48;font-weight:800;"
->
+<p class="final-message"
+style="color:#e11d48;font-weight:800;">
 You are not just special...
 You are my forever favorite person. 🥹💋💎
 </p>
@@ -1193,16 +1031,21 @@ You are my forever favorite person. 🥹💋💎
             unsafe_allow_html=True
         )
 
-        st.markdown(
-            """
-<div class="photo-card">
-
-<div class="photo-glow">
-""",
-            unsafe_allow_html=True
-        )
+        # ----------------------------------------------------
+        # CHECK PHOTO 1
+        # ----------------------------------------------------
 
         if ANI_IMAGE.exists():
+
+            st.markdown(
+                "<div class='photo-card'>",
+                unsafe_allow_html=True
+            )
+
+            st.markdown(
+                "<div class='photo-glow'>",
+                unsafe_allow_html=True
+            )
 
             st.image(
                 str(ANI_IMAGE),
@@ -1210,23 +1053,22 @@ You are my forever favorite person. 🥹💋💎
                 use_container_width=True
             )
 
+            st.markdown(
+                "</div></div>",
+                unsafe_allow_html=True
+            )
+
         else:
 
-            st.error(
-                "❌ Ani.jpg.jpeg was not found."
+            st.error("❌ Ani.jpg.jpeg was not found.")
+
+            st.info(
+                "Please upload Ani.jpg.jpeg to the same GitHub folder as apps.py."
             )
 
             st.code(
-                str(ANI_IMAGE)
+                f"Looking for:\n{ANI_IMAGE}"
             )
-
-        st.markdown(
-            """
-</div>
-</div>
-""",
-            unsafe_allow_html=True
-        )
 
         st.markdown(
             """
@@ -1263,16 +1105,21 @@ You are my forever favorite person. 🥹💋💎
             unsafe_allow_html=True
         )
 
-        st.markdown(
-            """
-<div class="photo-card">
-
-<div class="photo-glow">
-""",
-            unsafe_allow_html=True
-        )
+        # ----------------------------------------------------
+        # CHECK PHOTO 2
+        # ----------------------------------------------------
 
         if ATHU_IMAGE.exists():
+
+            st.markdown(
+                "<div class='photo-card'>",
+                unsafe_allow_html=True
+            )
+
+            st.markdown(
+                "<div class='photo-glow'>",
+                unsafe_allow_html=True
+            )
 
             st.image(
                 str(ATHU_IMAGE),
@@ -1280,23 +1127,22 @@ You are my forever favorite person. 🥹💋💎
                 use_container_width=True
             )
 
+            st.markdown(
+                "</div></div>",
+                unsafe_allow_html=True
+            )
+
         else:
 
-            st.error(
-                "❌ athu.jpg.jpeg was not found."
+            st.error("❌ athu.jpg.jpeg was not found.")
+
+            st.info(
+                "Please upload athu.jpg.jpeg to the same GitHub folder as apps.py."
             )
 
             st.code(
-                str(ATHU_IMAGE)
+                f"Looking for:\n{ATHU_IMAGE}"
             )
-
-        st.markdown(
-            """
-</div>
-</div>
-""",
-            unsafe_allow_html=True
-        )
 
         st.markdown(
             """
@@ -1365,10 +1211,8 @@ the end of this little journey. 💖
 But wait... 👀✨
 </p>
 
-<p
-class="final-message"
-style="color:#e11d48;font-weight:800;"
->
+<p class="final-message"
+style="color:#e11d48;font-weight:800;">
 There is still ONE final surprise
 waiting for you. 🥹💌
 </p>
@@ -1408,9 +1252,7 @@ waiting for you. 🥹💌
     elif st.session_state.photo_page == 4:
 
         st.markdown(
-            """
-<div class="final-box">
-""",
+            "<div class='final-box'>",
             unsafe_allow_html=True
         )
 
@@ -1418,10 +1260,6 @@ waiting for you. 🥹💌
             "<div class='heart'>💖</div>",
             unsafe_allow_html=True
         )
-
-        # ====================================================
-        # SHAKING I LOVE YOU
-        # ====================================================
 
         st.markdown(
             """
@@ -1435,20 +1273,11 @@ I LOVE YOU
         st.markdown(
             """
 <h1 class="main-title">
-My🥹 Husband 💋✨💎💯
+My 🥹 Husband 💋✨💎💯
 </h1>
 """,
             unsafe_allow_html=True
         )
-
-
-        # ====================================================
-        # FINAL WORDS
-        # ====================================================
-        # IMPORTANT:
-        # These are HTML paragraphs.
-        # They will NOT show <br> or <b> on the screen.
-        # ====================================================
 
         st.markdown(
             """
@@ -1478,11 +1307,6 @@ can ever explain. 🥹💋✨
             unsafe_allow_html=True
         )
 
-
-        # ====================================================
-        # FINAL EFFECT
-        # ====================================================
-
         st.markdown(
             """
 <div class="love-text">
@@ -1511,16 +1335,9 @@ can ever explain. 🥹💋✨
         )
 
         st.markdown(
-            """
-</div>
-""",
+            "</div>",
             unsafe_allow_html=True
         )
-
-
-        # ====================================================
-        # BACK / REPLAY
-        # ====================================================
 
         col1, col2 = st.columns(2)
 
@@ -1544,6 +1361,20 @@ can ever explain. 🥹💋✨
                 st.session_state.level = 0
                 st.session_state.photo_page = 1
                 st.rerun()
+
+
+# In[9]:
+
+
+from pathlib import Path
+
+BASE_DIR = Path.cwd()
+
+ANI_IMAGE = BASE_DIR / "Ani.jpg"
+ATHU_IMAGE = BASE_DIR / "athu.jpg"
+
+print("Ani image:",ANI_IMAGE)
+print("Athu image:",ATHU_IMAGE)
 
 
 # In[ ]:
